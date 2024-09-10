@@ -1,4 +1,4 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import {
     useNavigate,
@@ -6,16 +6,17 @@ import {
 } from "react-router-dom";
 import { useFirestore, useFirestoreDocData, useUser } from 'reactfire';
 import Login from './Login';
-import { Lobby } from './interfaces';
+import { Game, Lobby } from './interfaces';
 import { Button } from 'react-bulma-components';
 import Player from './components/Player';
 
 export default function LobbyPage() {
     const navigate = useNavigate();
     let { gameId } = useParams();
+    const firestore = useFirestore();
 
     const { status, data: user } = useUser();
-    const lobbyRef = doc(useFirestore(), 'lobbies', gameId ?? 'a');
+    const lobbyRef = doc(firestore, 'lobbies', gameId ?? 'a');
     const { status: lobbyDataStatus, data: lobbyData } = useFirestoreDocData(lobbyRef);
 
     if (status === 'loading' || lobbyDataStatus === 'loading') {
@@ -38,8 +39,6 @@ export default function LobbyPage() {
         });
     }
     
-    // get the player's names from the uid using firebase
-
     return (
         <div>
             <h1>Lobby {gameId}</h1>
@@ -49,7 +48,23 @@ export default function LobbyPage() {
                     return <Player playerUid={player} />
                 })}
             </ul>
-            {lobby.host === user.uid && lobby.players.length >= 2 && <Button onClick={() => {}}>Start Game</Button>}
+            {lobby.host === user.uid && lobby.players.length >= 2 && <Button onClick={() => {
+                const currentIdx = lobby.lastGuesser ? lobby.players.indexOf(lobby.lastGuesser) : 0;
+                const nextIdx = (currentIdx + 1) % lobby.players.length;
+                const game: Game = {
+                    currentCategory: 0,
+                    cats: [],
+                    submissions: [],
+                    guesser: lobby.players[nextIdx],
+                    chosenNumber: Math.floor(Math.random() * 9) + 1,
+                    numCategories: 3,
+                    guesserMin: 0,
+                    guesserMax: 10
+                }
+                const gameRef = doc(firestore, 'games', gameId ?? 'a');
+                setDoc(gameRef, game);
+                navigate(`/game/${gameId}`);
+            }}>Start Game</Button>}
         </div>
     );
 }
