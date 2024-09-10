@@ -1,6 +1,6 @@
 export interface Lobby {
     players: string[],
-    lastGuesser: string | undefined,
+    lastGuesser: string | null,
     gameCode: string,
     host: string,
     numberWins: Object

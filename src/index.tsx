@@ -3,13 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { FirebaseAppProvider } from 'reactfire';
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
-import Login from './Login';
-import Lobby from './Lobby';
-import Game from './Game';
+import App from './App';
 
 const firebaseConfig = {
   apiKey: "AIzaSyByqRVz1yD1ANz-5H6ZS8kkUffyRmrkZ9s",
@@ -20,29 +14,13 @@ const firebaseConfig = {
   appId: "1:26336351754:web:f4ebc9ae4464a6171e71f3"
 };
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />,
-    errorElement: <Login />,
-  },
-  {
-    path: "/lobby/:gameId",
-    element: <Lobby />,
-  },
-  {
-    path: "/game/:gameId",
-    element: <Game />,
-  }
-]);
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <RouterProvider router={router} />
+      <App />
     </FirebaseAppProvider>
   </React.StrictMode>
 );
