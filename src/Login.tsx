@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { generate } from 'randomstring';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { Lobby } from './interfaces';
-import Profile from './Profile';
+import Profile from './components/Profile';
 const { Input, Field, Label, Control } = Form;
 
 export default function Login() {

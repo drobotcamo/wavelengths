@@ -1,4 +1,4 @@
-import { doc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import {
     useNavigate,
@@ -7,18 +7,18 @@ import {
 import { useFirestore, useFirestoreDocData, useUser } from 'reactfire';
 import Login from './Login';
 import { Lobby } from './interfaces';
+import { Button } from 'react-bulma-components';
+import Player from './components/Player';
 
 export default function LobbyPage() {
     const navigate = useNavigate();
     let { gameId } = useParams();
 
     const { status, data: user } = useUser();
-    const userRef = doc(useFirestore(), 'users', user?.uid ?? "a");
-    const { status: userDataStatus, data: userData } = useFirestoreDocData(userRef);
     const lobbyRef = doc(useFirestore(), 'lobbies', gameId ?? 'a');
     const { status: lobbyDataStatus, data: lobbyData } = useFirestoreDocData(lobbyRef);
 
-    if (status === 'loading' || userDataStatus === 'loading' || lobbyDataStatus === 'loading') {
+    if (status === 'loading' || lobbyDataStatus === 'loading') {
         return <p>Loading...</p>;
     }
 
@@ -31,6 +31,14 @@ export default function LobbyPage() {
         navigate("/");
     }
     const lobby = lobbyData as Lobby;
+    
+    if(!lobby.players.includes(user.uid)) {
+        updateDoc(lobbyRef, {
+            players: [...lobby.players, user.uid]
+        });
+    }
+    
+    // get the player's names from the uid using firebase
 
     return (
         <div>
@@ -38,9 +46,10 @@ export default function LobbyPage() {
             <h2>Players</h2>
             <ul>
                 {lobbyData?.players.map((player: any) => {
-                    return <li key={player}>{player}</li>
+                    return <Player playerUid={player} />
                 })}
             </ul>
+            {lobby.host === user.uid && lobby.players.length >= 2 && <Button onClick={() => {}}>Start Game</Button>}
         </div>
     );
 }
