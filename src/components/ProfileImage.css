@@ -1,0 +1,13 @@
+.profile-image {
+    width: 64px;
+}
+
+.pfp-image-container {
+    width: 74px;
+    height: 74px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -15,6 +15,7 @@ export default function Profile() {
     if(!userData) {
         setDoc(userRef, {
             displayName: user!.displayName?.split(' ')[0] ?? "",
+            profilePicture: 1,
         });
     }
 
