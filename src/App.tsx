@@ -1,26 +1,41 @@
-// NOT IN USE, USED FOR REFERENCE
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import 'bulma/css/bulma.min.css';
+import { AuthProvider, FirestoreProvider, useFirebaseApp } from 'reactfire';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './Login';
+import Lobby from './Lobby';
+import Game from './Game';
 
 function App() {
+  const app = useFirebaseApp();
+  const auth = getAuth(app);
+  const firestore = getFirestore(app);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Login />,
+      errorElement: <Login />,
+    },
+    {
+      path: "/lobby/:gameId",
+      element: <Lobby />,
+    },
+    {
+      path: "/game/:gameId",
+      element: <Game />,
+    }
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FirestoreProvider sdk={firestore}>
+      <AuthProvider sdk={auth}>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </FirestoreProvider>
   );
 }
 
