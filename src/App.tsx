@@ -7,7 +7,7 @@ import { getFirestore } from 'firebase/firestore';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './Login';
 import Lobby from './Lobby';
-import Game from './Game';
+import Game from './GamePage';
 
 function App() {
   const app = useFirebaseApp();

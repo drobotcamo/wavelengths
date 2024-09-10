@@ -1,0 +1,14 @@
+.player-card {
+    background-color: rgba(207, 207, 207, 0.409);
+    border-radius: 50px 50px 15px 15px;
+    padding: 10px;
+    width: 115px;
+    height: 139px;
+
+    color: white;
+}
+
+.player-name-container {
+    display: flex;
+    justify-content: center;
+}
