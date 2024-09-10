@@ -17,9 +17,11 @@ export default function LobbyPage() {
 
     const { status, data: user } = useUser();
     const lobbyRef = doc(firestore, 'lobbies', gameId ?? 'a');
+    const gameRef = doc(firestore, 'games', gameId ?? 'a');
     const { status: lobbyDataStatus, data: lobbyData } = useFirestoreDocData(lobbyRef);
+    const { status: gameDataStatus, data: gameData } = useFirestoreDocData(gameRef);
 
-    if (status === 'loading' || lobbyDataStatus === 'loading') {
+    if (status === 'loading' || lobbyDataStatus === 'loading' || gameDataStatus === 'loading') {
         return <p>Loading...</p>;
     }
 
@@ -48,7 +50,10 @@ export default function LobbyPage() {
                     return <Player playerUid={player} />
                 })}
             </ul>
-            {lobby.host === user.uid && lobby.players.length >= 2 && <Button onClick={() => {
+            {gameData && <Button onClick={() => {
+                navigate(`/game/${gameId}`);
+            }}>Resume Game</Button>}
+            {!gameData && lobby.host === user.uid && lobby.players.length >= 2 && <Button onClick={() => {
                 const currentIdx = lobby.lastGuesser ? lobby.players.indexOf(lobby.lastGuesser) : 0;
                 const nextIdx = (currentIdx + 1) % lobby.players.length;
                 const game: Game = {
@@ -61,7 +66,6 @@ export default function LobbyPage() {
                     guesserMin: 0,
                     guesserMax: 10
                 }
-                const gameRef = doc(firestore, 'games', gameId ?? 'a');
                 setDoc(gameRef, game);
                 navigate(`/game/${gameId}`);
             }}>Start Game</Button>}
