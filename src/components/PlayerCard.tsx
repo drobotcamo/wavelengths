@@ -1,4 +1,4 @@
-import Player from '../components/Player'
+import Player from './PlayerName'
 import ProfileImage from "./ProfileImage";
 import { doc } from "firebase/firestore";
 import { useFirestore, useFirestoreDocData } from "reactfire";

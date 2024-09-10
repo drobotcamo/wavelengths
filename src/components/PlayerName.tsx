@@ -7,8 +7,6 @@ export default function PlayerName({playerUid}: {playerUid: string}) {
     const { status: status, data: data } = useFirestoreDocData(playerRef);
 
     return (
-        <div>
-            <p>{data?.displayName ?? "Loading..."}</p>
-        </div>
+        <span>{data?.displayName ?? "Loading..."}</span>
     );
 }

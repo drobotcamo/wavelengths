@@ -8,7 +8,7 @@ import { useFirestore, useFirestoreDocData, useUser } from 'reactfire';
 import Login from './Login';
 import { Game, Lobby } from './interfaces';
 import { Button } from 'react-bulma-components';
-import Player from './components/Player';
+import Player from './components/PlayerName';
 
 export default function LobbyPage() {
     const navigate = useNavigate();
@@ -57,6 +57,7 @@ export default function LobbyPage() {
                 const currentIdx = lobby.lastGuesser ? lobby.players.indexOf(lobby.lastGuesser) : 0;
                 const nextIdx = (currentIdx + 1) % lobby.players.length;
                 const game: Game = {
+                    finalGuess: -1,
                     currentCategory: 0,
                     cats: [],
                     submissions: [],

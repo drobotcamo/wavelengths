@@ -5,7 +5,7 @@ export default function ProfileImage({id}: {id: number}) {
     if (id > 10) {
         id = 1;
     }
-    if (id == 0) {
+    if (id === 0) {
         imagePath = `/assets/pfps/00.gif`
     } else {
         imagePath = `/assets/pfps/${id.toString().padStart(2, '0')}.png`

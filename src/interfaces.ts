@@ -10,12 +10,13 @@ export interface Lobby {
 export interface Game {
     currentCategory: number,
     cats: string[],
-    submissions: Object[],
+    submissions: any[],
     guesser: string,
     chosenNumber: number
     numCategories: number
     guesserMin: number
     guesserMax: number
+    finalGuess: number
 }
 
 export type Role = "guesser" | "provider";
