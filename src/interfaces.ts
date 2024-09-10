@@ -1,4 +1,4 @@
-interface Lobby {
+export interface Lobby {
     players: string[],
     lastGuesser: string | undefined,
     gameCode: string,
@@ -7,7 +7,7 @@ interface Lobby {
     totalGames: number
 }
 
-interface Game {
+export interface Game {
     currentCategory: number,
     cats: string[],
     submissions: Object[],

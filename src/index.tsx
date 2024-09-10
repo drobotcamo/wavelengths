@@ -4,9 +4,6 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { FirebaseAppProvider } from 'reactfire';
 import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
