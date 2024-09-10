@@ -17,3 +17,5 @@ export interface Game {
     guesserMin: number
     guesserMax: number
 }
+
+export type Role = "guesser" | "provider";

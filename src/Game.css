@@ -1,0 +1,16 @@
+.game-bg {
+    background-image: url(/public/assets/Sbg-001.png);
+    width: 100sw;
+    height: 100svh
+}
+
+.game-header {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+
+}
